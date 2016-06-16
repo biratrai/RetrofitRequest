@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">IfactorTest</string>
+    <string name="user_posts">User Posts</string>
+    <string name="post_title">Post Title</string>
+    <string name="post_body">Post Body</string>
+    <string name="address">Address</string>
+    <string name="user_name">User Name</string>
+    <string name="new_post">New Post</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+</resources>
