@@ -1,9 +1,9 @@
 package com.gooner10.ifactortest.network;
 
-import com.squareup.okhttp.OkHttpClient;
 
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
+import okhttp3.OkHttpClient;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
