@@ -9,17 +9,16 @@ import com.gooner10.ifactortest.network.ServiceGenerator;
 
 import java.util.List;
 
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Listens to user actions from the UI ({@link DetailActivity}), retrieves the data and updates the
  * UI as required.
  */
 public class DetailPostPresenter implements DetailPostContract.DetailPostPresenter {
-    private static final String LOG_TAG = DetailPostPresenter.class.getSimpleName();
+    private static final String TAG = DetailPostPresenter.class.getSimpleName();
     private final DetailPostContract.View mPostView;
     private List<Posts> postsList;
     private ApiService service;
@@ -41,18 +40,18 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
         //asynchronous call
         call.enqueue(new Callback<List<Posts>>() {
             @Override
-            public void onResponse(Response<List<Posts>> response, Retrofit retrofit) {
-                Log.d(LOG_TAG, "Response code: " + response.code());
-                Log.d(LOG_TAG, "Response isSuccess:" + response.isSuccess());
-                if (response.isSuccess()) {
+            public void onResponse(Call<List<Posts>> call, Response<List<Posts>> response) {
+                Log.d(TAG, "Response code: " + response.code());
+                Log.d(TAG, "Response isSuccess:" + response.isSuccessful());
+                if (response.isSuccessful()) {
                     postsList = response.body();
                     mPostView.displayPostData(postsList);
                 }
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Log.d(LOG_TAG, "Retrofit onFailure: " + t.getMessage());
+            public void onFailure(Call<List<Posts>> call, Throwable t) {
+                Log.d(TAG, "Retrofit onFailure: " + t.getMessage());
             }
         });
     }
@@ -63,13 +62,13 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
 
         editPostCall.enqueue(new Callback<Posts>() {
             @Override
-            public void onResponse(Response<Posts> response, Retrofit retrofit) {
-                Log.d(LOG_TAG, "onResponse editPostData: " + response.isSuccess());
+            public void onResponse(Call<Posts> call, Response<Posts> response) {
+                Log.d(TAG, "onResponse editPostData: " + response.isSuccessful());
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Log.d(LOG_TAG, "onFailure editPostData: " + t.getMessage());
+            public void onFailure(Call<Posts> call, Throwable t) {
+                Log.d(TAG, "onFailure editPostData: " + t.getMessage());
             }
         });
         loadPostsData(editPost.getUserId());
@@ -81,13 +80,13 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
 
         newPostCall.enqueue(new Callback<NewPost>() {
             @Override
-            public void onResponse(Response<NewPost> response, Retrofit retrofit) {
-                Log.d(LOG_TAG, "onResponse sendPostData: " + response.isSuccess());
+            public void onResponse(Call<NewPost> call, Response<NewPost> response) {
+                Log.d(TAG, "onResponse sendPostData: " + response.isSuccessful());
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                Log.d(LOG_TAG, "onFailure sendPostData: " + t.getMessage());
+            public void onFailure(Call<NewPost> call, Throwable t) {
+                Log.e(TAG, "onFailure sendPostData: " + t.getMessage());
             }
         });
         loadPostsData(newPost.getUserId());
