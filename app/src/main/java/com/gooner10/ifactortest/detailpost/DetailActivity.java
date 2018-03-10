@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -80,8 +79,8 @@ public class DetailActivity extends AppCompatActivity implements Button.OnClickL
         View dialogView = getLayoutInflater().inflate(R.layout.input_dialog_box, null);
         alertDialogBuilder.setView(dialogView);
 
-        final EditText newBodyText = (EditText) dialogView.findViewById(R.id.newPostBody);
-        final EditText newTitleText = (EditText) dialogView.findViewById(R.id.newPostTitle);
+        final EditText newBodyText = dialogView.findViewById(R.id.newPostBody);
+        final EditText newTitleText = dialogView.findViewById(R.id.newPostTitle);
 
         /*
          * This is the Update Post
