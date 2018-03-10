@@ -19,11 +19,11 @@ import retrofit2.Response;
  */
 public class UserPresenter implements UserContract.UserPresenter {
     private static final String LOG_TAG = UserPresenter.class.getSimpleName();
-    List<Users> usersList;
-    private final UserContract.View mUserView;
+    private List<Users> usersList;
+    private final UserContract.View userView;
 
     public UserPresenter(UserContract.View mUserView) {
-        this.mUserView = mUserView;
+        this.userView = mUserView;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UserPresenter implements UserContract.UserPresenter {
             public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
                 if (response.isSuccessful()) {
                     usersList = response.body();
-                    mUserView.displayUserData(usersList);
+                    userView.displayUserData(usersList);
                     Log.d(LOG_TAG, "Retrofit onResponse: " + usersList);
                 }
             }
