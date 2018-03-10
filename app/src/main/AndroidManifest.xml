@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".detailpost.DetailActivity"
-            android:label="@string/user_posts"/>
+            android:label="@string/user_posts" />
     </application>
 
 </manifest>
