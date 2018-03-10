@@ -1,5 +1,6 @@
 package com.gooner10.ifactortest.detailpost;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,7 +29,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         // Inflate the custom layout
         View view = LayoutInflater.from(parent.getContext()).
@@ -38,7 +39,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.postTitle.setText(postsList.get(position).getTitle());
         holder.postBody.setText(postsList.get(position).getBody());
         Log.d("LOG_TAG", "addData:" + postsList.get(position).getTitle());
@@ -62,8 +63,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            postTitle = (TextView) itemView.findViewById(R.id.postTitle);
-            postBody = (TextView) itemView.findViewById(R.id.postBody);
+            postTitle = itemView.findViewById(R.id.postTitle);
+            postBody = itemView.findViewById(R.id.postBody);
         }
 
         @Override
