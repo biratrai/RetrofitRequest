@@ -19,12 +19,12 @@ import retrofit2.Response;
  */
 public class DetailPostPresenter implements DetailPostContract.DetailPostPresenter {
     private static final String TAG = DetailPostPresenter.class.getSimpleName();
-    private final DetailPostContract.View mPostView;
+    private final DetailPostContract.View postView;
     private List<Posts> postsList;
     private ApiService service;
 
     public DetailPostPresenter(DetailPostContract.View postView) {
-        this.mPostView = postView;
+        this.postView = postView;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
                 Log.d(TAG, "Response isSuccess:" + response.isSuccessful());
                 if (response.isSuccessful()) {
                     postsList = response.body();
-                    mPostView.displayPostData(postsList);
+                    postView.displayPostData(postsList);
                 }
             }
 
