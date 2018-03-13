@@ -1,7 +1,10 @@
 package com.gooner10.ifactortest.network;
 
 
+import com.gooner10.ifactortest.BuildConfig;
+
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -9,7 +12,7 @@ public class ServiceGenerator {
 
     public static final String API_BASE_URL = "http://jsonplaceholder.typicode.com/";
 
-    private static OkHttpClient httpClient = new OkHttpClient();
+    private static OkHttpClient httpClient = getLoggingCapableHttpClient();
     private static Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
@@ -18,5 +21,14 @@ public class ServiceGenerator {
     public static <S> S createService(Class<S> serviceClass) {
         Retrofit retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
+    }
+
+    private static OkHttpClient getLoggingCapableHttpClient() {
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(BuildConfig.DEBUG ?
+                HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+        return new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
     }
 }
