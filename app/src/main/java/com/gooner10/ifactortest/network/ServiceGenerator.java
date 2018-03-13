@@ -3,14 +3,21 @@ package com.gooner10.ifactortest.network;
 
 import com.gooner10.ifactortest.BuildConfig;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.CacheControl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "http://jsonplaceholder.typicode.com/";
+    private static final String API_BASE_URL = "http://jsonplaceholder.typicode.com/";
+    private static final String CACHE_CONTROL = "Cache-Control";
 
     private static OkHttpClient httpClient = getLoggingCapableHttpClient();
     private static Retrofit.Builder builder =
@@ -19,7 +26,9 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create());
 
     public static <S> S createService(Class<S> serviceClass) {
-        Retrofit retrofit = builder.client(httpClient).build();
+        Retrofit retrofit = builder
+                .client(httpClient)
+                .build();
         return retrofit.create(serviceClass);
     }
 
@@ -30,5 +39,21 @@ public class ServiceGenerator {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .build();
+    }
+
+    private static Interceptor getCacheInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Response response = chain.proceed(chain.request());
+
+                CacheControl cacheControl = new CacheControl.Builder()
+                        .maxAge(2, TimeUnit.MINUTES)
+                        .build();
+                return response.newBuilder()
+                        .header(CACHE_CONTROL, cacheControl.toString())
+                        .build();
+            }
+        };
     }
 }
