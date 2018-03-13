@@ -41,6 +41,7 @@ public class ServiceGenerator {
                 HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addNetworkInterceptor(getCacheInterceptor())
                 .cache(provideCache())
                 .build();
     }
