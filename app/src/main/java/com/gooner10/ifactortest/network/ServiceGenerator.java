@@ -2,10 +2,13 @@ package com.gooner10.ifactortest.network;
 
 
 import com.gooner10.ifactortest.BuildConfig;
+import com.gooner10.ifactortest.MyApplication;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -38,7 +41,15 @@ public class ServiceGenerator {
                 HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .cache(provideCache())
                 .build();
+    }
+
+    private static Cache provideCache() {
+        Cache cache = null;
+        cache = new Cache(new File(MyApplication.getInstance().getCacheDir(), "http-cache"),
+                10 * 1024 * 1024); // 10 MB
+        return cache;
     }
 
     private static Interceptor getCacheInterceptor() {
