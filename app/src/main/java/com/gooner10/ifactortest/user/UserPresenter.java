@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.gooner10.ifactortest.model.Users;
 import com.gooner10.ifactortest.network.ApiService;
-import com.gooner10.ifactortest.network.ServiceGenerator;
 
 import java.util.List;
 
@@ -27,12 +26,11 @@ public class UserPresenter implements UserContract.UserPresenter {
     }
 
     @Override
-    public void loadUserData() {
-        callRetrofitService();
+    public void loadUserData(ApiService service) {
+        callRetrofitService(service);
     }
 
-    private void callRetrofitService() {
-        ApiService service = ServiceGenerator.createService(ApiService.class);
+    private void callRetrofitService(ApiService service) {
         Call<List<Users>> call = service.getUserData();
         call.enqueue(new Callback<List<Users>>() {
             @Override
@@ -47,6 +45,7 @@ public class UserPresenter implements UserContract.UserPresenter {
             @Override
             public void onFailure(Call<List<Users>> call, Throwable t) {
                 Log.d(LOG_TAG, "Retrofit onFailure: " + t.getMessage());
+                userView.displayErrorData();
             }
         });
     }
