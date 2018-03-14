@@ -1,6 +1,7 @@
 package com.gooner10.ifactortest.user;
 
 import com.gooner10.ifactortest.model.Users;
+import com.gooner10.ifactortest.network.ApiService;
 
 import java.util.List;
 
@@ -10,9 +11,11 @@ import java.util.List;
 public interface UserContract {
     interface View {
         void displayUserData(List<Users> usersList);
+
+        void displayErrorData();
     }
 
     interface UserPresenter {
-        void loadUserData();
+        void loadUserData(ApiService service);
     }
 }
