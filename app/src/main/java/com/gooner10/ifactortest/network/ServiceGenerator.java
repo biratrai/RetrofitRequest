@@ -12,6 +12,7 @@ import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -41,6 +42,7 @@ public class ServiceGenerator {
                 HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor(getOfflineInterceptor())
                 .addNetworkInterceptor(getCacheInterceptor())
                 .cache(provideCache())
                 .build();
@@ -65,6 +67,24 @@ public class ServiceGenerator {
                 return response.newBuilder()
                         .header(CACHE_CONTROL, cacheControl.toString())
                         .build();
+            }
+        };
+    }
+
+    private static Interceptor getOfflineInterceptor() {
+        return new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                if (MyApplication.hasNetwork()) {
+                    CacheControl cacheControl = new CacheControl.Builder()
+                            .maxStale(7, TimeUnit.DAYS)
+                            .build();
+                    request = request.newBuilder()
+                            .cacheControl(cacheControl)
+                            .build();
+                }
+                return chain.proceed(request);
             }
         };
     }
