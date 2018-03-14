@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.gooner10.ifactortest.R;
 import com.gooner10.ifactortest.databinding.ActivityMainBinding;
 import com.gooner10.ifactortest.model.Users;
+import com.gooner10.ifactortest.network.ApiService;
+import com.gooner10.ifactortest.network.ServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +30,7 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
 
         // Load user Data
         UserContract.UserPresenter userPresenter = new UserPresenter(this);
-        userPresenter.loadUserData();
+        userPresenter.loadUserData(ServiceGenerator.createService(ApiService.class));
 
         // Set recycler adapter and layout
         recyclerView.setAdapter(adapter);
@@ -37,5 +40,10 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
     @Override
     public void displayUserData(List<Users> usersList) {
         adapter.addData(usersList);
+    }
+
+    @Override
+    public void displayErrorData() {
+        Toast.makeText(this, "No Data available", Toast.LENGTH_SHORT).show();
     }
 }
