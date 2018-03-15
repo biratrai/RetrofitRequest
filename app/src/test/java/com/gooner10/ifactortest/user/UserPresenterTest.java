@@ -66,7 +66,7 @@ public class UserPresenterTest {
     }
 
     @Test
-    public void loadUserData_displayError_whenResponseFails() throws Exception {
+    public void loadUserData_shouldDoNothing_whenBadRequest() throws Exception {
         when(apiService.getUserData()).thenReturn(mockCall);
         Response<List<Users>> listResponse = Response.error(500, responseBody);
 
@@ -76,5 +76,18 @@ public class UserPresenterTest {
         argumentCaptor.getValue().onResponse(null, listResponse);
 
         verifyZeroInteractions(view);
+    }
+
+    @Test
+    public void loadUserData_displayError_whenFailedRequest() throws Exception {
+        when(apiService.getUserData()).thenReturn(mockCall);
+        Throwable throwable = new Throwable(new RuntimeException());
+
+        presenter.loadUserData(apiService);
+
+        verify(mockCall).enqueue(argumentCaptor.capture());
+        argumentCaptor.getValue().onFailure(null, throwable);
+
+        verify(view).displayErrorData();
     }
 }
