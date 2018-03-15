@@ -13,11 +13,13 @@ import org.mockito.MockitoAnnotations;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 
@@ -33,6 +35,9 @@ public class UserPresenterTest {
 
     @Mock
     Call<List<Users>> mockCall;
+
+    @Mock
+    ResponseBody responseBody;
 
     @Captor
     ArgumentCaptor<Callback<List<Users>>> argumentCaptor;
@@ -58,5 +63,18 @@ public class UserPresenterTest {
         argumentCaptor.getValue().onResponse(null, listResponse);
 
         verify(view).displayUserData(usersList);
+    }
+
+    @Test
+    public void loadUserData_displayError_whenResponseFails() throws Exception {
+        when(apiService.getUserData()).thenReturn(mockCall);
+        Response<List<Users>> listResponse = Response.error(500, responseBody);
+
+        presenter.loadUserData(apiService);
+
+        verify(mockCall).enqueue(argumentCaptor.capture());
+        argumentCaptor.getValue().onResponse(null, listResponse);
+
+        verifyZeroInteractions(view);
     }
 }
