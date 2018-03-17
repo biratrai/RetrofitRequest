@@ -5,7 +5,6 @@ import android.util.Log;
 import com.gooner10.ifactortest.model.NewPost;
 import com.gooner10.ifactortest.model.Posts;
 import com.gooner10.ifactortest.network.ApiService;
-import com.gooner10.ifactortest.network.ServiceGenerator;
 
 import java.util.List;
 
@@ -23,8 +22,9 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
     private List<Posts> postsList;
     private ApiService service;
 
-    public DetailPostPresenter(DetailPostContract.View postView) {
+    public DetailPostPresenter(DetailPostContract.View postView, ApiService service) {
         this.postView = postView;
+        this.service = service;
     }
 
     @Override
@@ -34,9 +34,7 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
 
     private void callRetrofitService(String userId) {
         // prepare call in Retrofit 2.0
-        service = ServiceGenerator.createService(ApiService.class);
-
-        Call<List<Posts>> call = service.getUserPosts(userId);
+        Call<List<Posts>> call = this.service.getUserPosts(userId);
         //asynchronous call
         call.enqueue(new Callback<List<Posts>>() {
             @Override
