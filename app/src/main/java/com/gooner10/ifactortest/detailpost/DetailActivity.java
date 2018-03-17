@@ -17,6 +17,8 @@ import com.gooner10.ifactortest.R;
 import com.gooner10.ifactortest.databinding.ActivityDetailBinding;
 import com.gooner10.ifactortest.model.NewPost;
 import com.gooner10.ifactortest.model.Posts;
+import com.gooner10.ifactortest.network.ApiService;
+import com.gooner10.ifactortest.network.ServiceGenerator;
 import com.gooner10.ifactortest.util.Util;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class DetailActivity extends AppCompatActivity implements Button.OnClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Load User post data
-        detailPostPresenter = new DetailPostPresenter(this);
+        detailPostPresenter = new DetailPostPresenter(this , ServiceGenerator.createService(ApiService.class));
         detailPostPresenter.loadPostsData(userId);
 
         Button newPostBtn = detailBinding.btnNewPost;
