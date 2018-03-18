@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">IfactorTest</string>
+    <string name="app_name">Retrofit Sample</string>
     <string name="user_posts">User Posts</string>
     <string name="post_title">Post Title</string>
     <string name="post_body">Post Body</string>
