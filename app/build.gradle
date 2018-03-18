@@ -5,7 +5,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        applicationId "com.gooner10.ifactortest"
+        applicationId "com.gooner10.retrofitsample"
         minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
@@ -21,6 +21,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     testOptions {
