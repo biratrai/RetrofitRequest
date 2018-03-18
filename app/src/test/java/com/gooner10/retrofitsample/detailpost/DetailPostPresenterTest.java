@@ -5,6 +5,8 @@ import com.gooner10.retrofitsample.network.ApiService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,13 +24,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Test clas for {@link DetailPostPresenter}
  */
+@RunWith(JUnit4.class)
 public class DetailPostPresenterTest {
     private DetailPostPresenter postPresenter;
     private MockWebServer mockWebServer;
     private ApiService service;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws IOException {
         mockWebServer = new MockWebServer();
         service = new Retrofit.Builder()
                 .baseUrl(mockWebServer.url("/"))
@@ -38,12 +41,12 @@ public class DetailPostPresenterTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() throws IOException {
         mockWebServer.shutdown();
     }
 
     @Test
-    public void loadPostsData_displaysPostData_whenSuccessful() throws Exception {
+    public void loadPostsData_displaysPostData_whenSuccessful() throws InterruptedException, IOException {
         enqueueResponse("user-detail.json");
     }
 
