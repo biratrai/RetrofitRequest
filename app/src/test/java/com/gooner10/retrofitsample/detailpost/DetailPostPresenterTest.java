@@ -55,7 +55,7 @@ public class DetailPostPresenterTest {
     }
 
     @Test
-    public void loadPostsData_displaysPostData_whenResposeIsSuccessful() throws InterruptedException, IOException {
+    public void loadPostsData_displaysPostData_whenResponseIsSuccessful() throws InterruptedException, IOException {
         when(service.getUserPosts("1")).thenReturn(mockCall);
         Response<List<Posts>> response = Response.success(posts);
 
@@ -67,4 +67,16 @@ public class DetailPostPresenterTest {
         verify(postView, times(1)).displayPostData(ArgumentMatchers.<Posts>anyList());
     }
 
+    @Test
+    public void loadPostsData_displaysErrorData_whenResponseIsFailure() throws Exception {
+        when(service.getUserPosts("1")).thenReturn(mockCall);
+        Throwable throwable = new Throwable(new RuntimeException());
+
+        postPresenter.loadPostsData("1");
+
+        verify(mockCall).enqueue(argumentCaptor.capture());
+        argumentCaptor.getValue().onFailure(null, throwable);
+
+        verify(postView).displayErrorData();
+    }
 }
