@@ -11,6 +11,8 @@ import java.util.List;
 public interface DetailPostContract {
     interface View {
         void displayPostData(List<Posts> postsList);
+
+        void displayErrorData();
     }
 
     interface DetailPostPresenter {
