@@ -50,6 +50,7 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
             @Override
             public void onFailure(Call<List<Posts>> call, Throwable t) {
                 Log.d(TAG, "Retrofit onFailure: " + t.getMessage());
+                postView.displayErrorData();
             }
         });
     }
