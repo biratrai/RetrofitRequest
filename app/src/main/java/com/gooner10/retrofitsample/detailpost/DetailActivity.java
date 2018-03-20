@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class DetailActivity extends AppCompatActivity implements Button.OnClickListener, PostAdapter.Caller,
         DetailPostContract.View {
+    public static final String TAG = DetailActivity.class.getSimpleName();
     private List<Posts> postsList = new ArrayList<>();
     private PostAdapter adapter;
     private String userId;
@@ -46,7 +48,7 @@ public class DetailActivity extends AppCompatActivity implements Button.OnClickL
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Load User post data
-        detailPostPresenter = new DetailPostPresenter(this , ServiceGenerator.createService(ApiService.class));
+        detailPostPresenter = new DetailPostPresenter(this, ServiceGenerator.createService(ApiService.class));
         detailPostPresenter.loadPostsData(userId);
 
         Button newPostBtn = detailBinding.btnNewPost;
@@ -136,5 +138,10 @@ public class DetailActivity extends AppCompatActivity implements Button.OnClickL
     public void displayPostData(List<Posts> postsList) {
         this.postsList = postsList;
         adapter.addData(postsList);
+    }
+
+    @Override
+    public void displayErrorData() {
+        Log.e(TAG, "displayErrorData: ");
     }
 }
