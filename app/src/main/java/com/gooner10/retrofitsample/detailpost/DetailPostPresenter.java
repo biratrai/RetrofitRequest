@@ -63,6 +63,7 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
             @Override
             public void onResponse(Call<Posts> call, Response<Posts> response) {
                 Log.d(TAG, "onResponse editPostData: " + response.isSuccessful());
+                postView.displayEditPostData(response.body());
             }
 
             @Override
