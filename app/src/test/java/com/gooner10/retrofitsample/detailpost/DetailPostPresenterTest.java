@@ -17,12 +17,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -41,6 +43,10 @@ public class DetailPostPresenterTest {
 
     @Mock
     Call<List<Posts>> mockCall;
+
+    @Mock
+    ResponseBody responseBody;
+
     @Captor
     ArgumentCaptor<Callback<List<Posts>>> argumentCaptor;
 
@@ -78,5 +84,18 @@ public class DetailPostPresenterTest {
         argumentCaptor.getValue().onFailure(null, throwable);
 
         verify(postView).displayErrorData();
+    }
+
+    @Test
+    public void loadPostData_shouldDoNothing_whenBadRequest() throws Exception {
+        when(service.getUserPosts("1")).thenReturn(mockCall);
+        Response<List<Posts>> response = Response.error(500, responseBody);
+
+        postPresenter.loadPostsData("1");
+
+        verify(mockCall).enqueue(argumentCaptor.capture());
+        argumentCaptor.getValue().onResponse(null, response);
+
+        verifyZeroInteractions(postView);
     }
 }
