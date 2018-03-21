@@ -144,4 +144,9 @@ public class DetailActivity extends AppCompatActivity implements Button.OnClickL
     public void displayErrorData() {
         Log.e(TAG, "displayErrorData: ");
     }
+
+    @Override
+    public void displayEditPostData(Posts posts) {
+        Log.d(TAG, "displayEditPostData: ");
+    }
 }
