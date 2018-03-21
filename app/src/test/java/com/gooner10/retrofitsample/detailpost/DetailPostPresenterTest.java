@@ -42,13 +42,22 @@ public class DetailPostPresenterTest {
     ApiService service;
 
     @Mock
-    Call<List<Posts>> mockCall;
+    Call<List<Posts>> mockLoadPostCall;
+
+    @Mock
+    Call<Posts> mockEditPostCall;
 
     @Mock
     ResponseBody responseBody;
 
+    //    @Mock
+    Posts editPost;
+
     @Captor
-    ArgumentCaptor<Callback<List<Posts>>> argumentCaptor;
+    ArgumentCaptor<Callback<List<Posts>>> loadPostArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Callback<Posts>> editPostArgumentCaptor;
 
     @Before
     public void setUp() throws IOException {
@@ -58,44 +67,61 @@ public class DetailPostPresenterTest {
                 "ola",
                 "body",
                 "12"));
+        editPost = new Posts("1",
+                "title",
+                "body",
+                "id");
     }
 
     @Test
     public void loadPostsData_displaysPostData_whenResponseIsSuccessful() throws InterruptedException, IOException {
-        when(service.getUserPosts("1")).thenReturn(mockCall);
+        when(service.getUserPosts("1")).thenReturn(mockLoadPostCall);
         Response<List<Posts>> response = Response.success(posts);
 
         postPresenter.loadPostsData("1");
 
-        verify(mockCall).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onResponse(mockCall, response);
+        verify(mockLoadPostCall).enqueue(loadPostArgumentCaptor.capture());
+        loadPostArgumentCaptor.getValue().onResponse(mockLoadPostCall, response);
 
         verify(postView, times(1)).displayPostData(ArgumentMatchers.<Posts>anyList());
     }
 
     @Test
     public void loadPostsData_displaysErrorData_whenResponseIsFailure() throws Exception {
-        when(service.getUserPosts("1")).thenReturn(mockCall);
+        when(service.getUserPosts("1")).thenReturn(mockLoadPostCall);
         Throwable throwable = new Throwable(new RuntimeException());
 
         postPresenter.loadPostsData("1");
 
-        verify(mockCall).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onFailure(null, throwable);
+        verify(mockLoadPostCall).enqueue(loadPostArgumentCaptor.capture());
+        loadPostArgumentCaptor.getValue().onFailure(null, throwable);
 
         verify(postView).displayErrorData();
     }
 
     @Test
     public void loadPostData_shouldDoNothing_whenBadRequest() throws Exception {
-        when(service.getUserPosts("1")).thenReturn(mockCall);
+        when(service.getUserPosts("1")).thenReturn(mockLoadPostCall);
         Response<List<Posts>> response = Response.error(500, responseBody);
 
         postPresenter.loadPostsData("1");
 
-        verify(mockCall).enqueue(argumentCaptor.capture());
-        argumentCaptor.getValue().onResponse(null, response);
+        verify(mockLoadPostCall).enqueue(loadPostArgumentCaptor.capture());
+        loadPostArgumentCaptor.getValue().onResponse(null, response);
 
         verifyZeroInteractions(postView);
+    }
+
+    @Test
+    public void editPostData_displaysEditedPostData_whenResponseIsSuccessful() throws Exception {
+        when(service.editUserPost(editPost.getId(), editPost)).thenReturn(mockEditPostCall);
+        Response<Posts> response = Response.success(editPost);
+
+        postPresenter.editPostData(editPost);
+
+        verify(mockEditPostCall).enqueue(editPostArgumentCaptor.capture());
+        editPostArgumentCaptor.getValue().onResponse(null, response);
+
+        verify(postView).displayEditPostData(editPost);
     }
 }
