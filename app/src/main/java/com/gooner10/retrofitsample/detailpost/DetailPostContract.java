@@ -13,6 +13,8 @@ public interface DetailPostContract {
         void displayPostData(List<Posts> postsList);
 
         void displayErrorData();
+
+        void displayEditPostData(Posts posts);
     }
 
     interface DetailPostPresenter {
