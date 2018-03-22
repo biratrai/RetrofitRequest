@@ -124,4 +124,18 @@ public class DetailPostPresenterTest {
 
         verify(postView).displayEditPostData(editPost);
     }
+
+    @Test
+    public void editPostData_displaysErrorData_whenResponseIsFailure() throws Exception {
+        when(service.editUserPost(editPost.getId(), editPost)).thenReturn(mockEditPostCall);
+
+        Throwable throwable = new Throwable();
+
+        postPresenter.editPostData(editPost);
+
+        verify(mockEditPostCall).enqueue(editPostArgumentCaptor.capture());
+        editPostArgumentCaptor.getValue().onFailure(null, throwable);
+
+        verify(postView).displayErrorData();
+    }
 }
