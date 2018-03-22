@@ -69,6 +69,7 @@ public class DetailPostPresenter implements DetailPostContract.DetailPostPresent
             @Override
             public void onFailure(Call<Posts> call, Throwable t) {
                 Log.d(TAG, "onFailure editPostData: " + t.getMessage());
+                postView.displayErrorData();
             }
         });
         loadPostsData(editPost.getUserId());
