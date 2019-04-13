@@ -1,13 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion '27.0.3'
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId "com.gooner10.retrofitsample"
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
@@ -37,10 +36,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android dependencies
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support:design:27.1.0'
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation 'com.android.support:cardview-v7:27.1.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
 
     // Library dependencies
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
