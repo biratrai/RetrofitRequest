@@ -46,14 +46,14 @@ public class UserPresenterTest {
     private List<Users> usersList;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         presenter = new UserPresenter(view);
         usersList = Collections.singletonList(new Users());
     }
 
     @Test
-    public void loadUserData_displaysUserData_whenResponseIsSuccessful() throws Exception {
+    public void loadUserData_displaysUserData_whenResponseIsSuccessful() {
         when(apiService.getUserData()).thenReturn(mockCall);
         Response<List<Users>> listResponse = Response.success(usersList);
 
@@ -66,7 +66,7 @@ public class UserPresenterTest {
     }
 
     @Test
-    public void loadUserData_shouldDoNothing_whenBadRequest() throws Exception {
+    public void loadUserData_shouldDoNothing_whenBadRequest() {
         when(apiService.getUserData()).thenReturn(mockCall);
         Response<List<Users>> listResponse = Response.error(500, responseBody);
 
@@ -79,7 +79,7 @@ public class UserPresenterTest {
     }
 
     @Test
-    public void loadUserData_displayError_whenFailedRequest() throws Exception {
+    public void loadUserData_displayError_whenFailedRequest() {
         when(apiService.getUserData()).thenReturn(mockCall);
         Throwable throwable = new Throwable(new RuntimeException());
 
