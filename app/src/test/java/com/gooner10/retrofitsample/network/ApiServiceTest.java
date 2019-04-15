@@ -1,7 +1,6 @@
 package com.gooner10.retrofitsample.network;
 
 import com.gooner10.retrofitsample.detailpost.DetailPostContract;
-import com.gooner10.retrofitsample.detailpost.DetailPostPresenter;
 import com.gooner10.retrofitsample.model.Posts;
 
 import org.junit.After;
@@ -24,7 +23,6 @@ import okio.Okio;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -39,7 +37,7 @@ public class ApiServiceTest {
     DetailPostContract.View postView;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         mockWebServer = new MockWebServer();
         service = new Retrofit.Builder()
@@ -55,7 +53,7 @@ public class ApiServiceTest {
     }
 
     @Test
-    public void loadPostsData_displaysPostData_whenSuccessful() throws InterruptedException, IOException {
+    public void loadPostsData_displaysPostData_whenSuccessful() throws IOException {
         enqueueResponse("user-detail.json");
 //        List<Posts> userposts = service.getUserPosts("1");
         verify(postView, times(1)).displayPostData(ArgumentMatchers.<Posts>anyList());
