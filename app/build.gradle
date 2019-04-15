@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android dependencies
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -50,6 +50,13 @@ dependencies {
     // Test dependencies
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
-    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.21'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.7.21'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.0') {
+        exclude group: 'com.android.support'
+    }
+    androidTestImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
+        exclude group: 'com.android.support'
+    }
 
 }
