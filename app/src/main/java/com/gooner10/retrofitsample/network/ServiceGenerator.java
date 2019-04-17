@@ -36,11 +36,13 @@ public class ServiceGenerator {
         return retrofit.create(serviceClass);
     }
 
-    private static OkHttpClient getLoggingCapableHttpClient() {
+    public static OkHttpClient getLoggingCapableHttpClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(BuildConfig.DEBUG ?
                 HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
+                .readTimeout(1, TimeUnit.SECONDS)
+                .connectTimeout(1, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(getOfflineInterceptor())
                 .addNetworkInterceptor(getCacheInterceptor())
