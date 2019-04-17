@@ -9,6 +9,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
     }
 
     dataBinding {
@@ -58,5 +59,13 @@ dependencies {
     androidTestImplementation('com.jakewharton.espresso:okhttp3-idling-resource:1.0.0') {
         exclude group: 'com.android.support'
     }
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'design'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+    }
+
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 
 }
