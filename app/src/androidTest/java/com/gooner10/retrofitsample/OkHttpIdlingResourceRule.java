@@ -1,14 +1,14 @@
 package com.gooner10.retrofitsample;
 
-import android.support.test.espresso.IdlingRegistry;
-import android.support.test.espresso.IdlingResource;
-
 import com.gooner10.retrofitsample.network.ServiceGenerator;
 import com.jakewharton.espresso.OkHttp3IdlingResource;
 
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+
+import androidx.test.espresso.IdlingRegistry;
+import androidx.test.espresso.IdlingResource;
 
 public class OkHttpIdlingResourceRule implements TestRule {
     @Override
