@@ -21,8 +21,8 @@ public class UserPresenter implements UserContract.UserPresenter {
     private List<Users> usersList;
     private final UserContract.View userView;
 
-    public UserPresenter(UserContract.View mUserView) {
-        this.userView = mUserView;
+    public UserPresenter(UserContract.View userView) {
+        this.userView = userView;
     }
 
     @Override
