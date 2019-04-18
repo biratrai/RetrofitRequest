@@ -29,6 +29,10 @@ public class ServiceGenerator {
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
 
+    private ServiceGenerator() {
+
+    }
+
     public static <S> S createService(Class<S> serviceClass) {
         Retrofit retrofit = builder
                 .client(httpClient)
@@ -51,8 +55,7 @@ public class ServiceGenerator {
     }
 
     private static Cache provideCache() {
-        Cache cache = null;
-        cache = new Cache(new File(MyApplication.getInstance().getCacheDir(), "http-cache"),
+        Cache cache = new Cache(new File(MyApplication.getInstance().getCacheDir(), "http-cache"),
                 10 * 1024 * 1024); // 10 MB
         return cache;
     }
