@@ -39,13 +39,15 @@ public class UserPresenter implements UserContract.UserPresenter {
                     usersList = response.body();
                     userView.displayUserData(usersList);
                     Log.d(LOG_TAG, "Retrofit onResponse: " + usersList);
+                } else {
+                    userView.displayErrorData(String.valueOf(response.code()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Users>> call, Throwable t) {
-                Log.d(LOG_TAG, "Retrofit onFailure: " + t.getMessage());
-                userView.displayErrorData();
+                Log.d(LOG_TAG, "Retrofit onFailure: " + t.toString());
+                userView.displayErrorData("Timeout Exception");
             }
         });
     }
