@@ -88,6 +88,6 @@ public class UserPresenterTest {
         verify(mockCall).enqueue(argumentCaptor.capture());
         argumentCaptor.getValue().onFailure(null, throwable);
 
-        verify(view).displayErrorData();
+        verify(view).displayErrorData(t.getMessage());
     }
 }
