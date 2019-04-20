@@ -12,7 +12,7 @@ public interface UserContract {
     interface View {
         void displayUserData(List<Users> usersList);
 
-        void displayErrorData();
+        void displayErrorData(String message);
     }
 
     interface UserPresenter {
