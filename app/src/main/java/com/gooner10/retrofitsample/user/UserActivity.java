@@ -1,10 +1,6 @@
 package com.gooner10.retrofitsample.user;
 
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +13,11 @@ import com.gooner10.retrofitsample.network.ServiceGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class UserActivity extends AppCompatActivity implements UserContract.View {
 
@@ -50,10 +51,10 @@ public class UserActivity extends AppCompatActivity implements UserContract.View
     }
 
     @Override
-    public void displayErrorData() {
+    public void displayErrorData(String message) {
         recyclerView.setVisibility(View.GONE);
         errorText.setVisibility(View.VISIBLE);
-        errorText.setText("No Data available");
-        Toast.makeText(this, "No Data available", Toast.LENGTH_SHORT).show();
+        errorText.setText(message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
