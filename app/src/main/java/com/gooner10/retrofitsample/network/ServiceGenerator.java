@@ -18,9 +18,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.gooner10.retrofitsample.URL.API_BASE_URL;
+
 public class ServiceGenerator {
 
-    private static final String API_BASE_URL = "http://jsonplaceholder.typicode.com/";
     private static final String CACHE_CONTROL = "Cache-Control";
 
     private static OkHttpClient httpClient = getLoggingCapableHttpClient();
@@ -45,8 +46,6 @@ public class ServiceGenerator {
         loggingInterceptor.setLevel(BuildConfig.DEBUG ?
                 HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
         return new OkHttpClient.Builder()
-                .readTimeout(1, TimeUnit.SECONDS)
-                .connectTimeout(1, TimeUnit.SECONDS)
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(getOfflineInterceptor())
                 .addNetworkInterceptor(getCacheInterceptor())
