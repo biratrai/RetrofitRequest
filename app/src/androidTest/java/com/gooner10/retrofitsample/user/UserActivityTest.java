@@ -13,12 +13,11 @@ import java.util.concurrent.TimeUnit;
 import androidx.test.rule.ActivityTestRule;
 import okhttp3.mockwebserver.MockResponse;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.anything;
 
 public class UserActivityTest {
 
@@ -36,11 +35,12 @@ public class UserActivityTest {
 
     @Test
     public void showsText() {
+        mockWebServerRule.server.enqueue(new MockResponse().setBody(getData()));
+
         activityTestRule.launchActivity(null);
-        onData(anything())
-                .inAdapterView(withId(R.id.recycler_view_main))
-                .atPosition(0)
-                .check(matches(withText("Leanne Graham")));
+
+        onView(withId(R.id.recycler_view_main))
+                .check(matches(hasDescendant(withText("Leanne Graham"))));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class UserActivityTest {
         activityTestRule.launchActivity(null);
 
         onView(withId(R.id.error_text))
-                .check(matches(withText("Timeout Exception")));
+                .check(matches(withText("EOFException")));
     }
 
     @Test
@@ -62,5 +62,67 @@ public class UserActivityTest {
 
         onView(withId(R.id.error_text))
                 .check(matches(withText("404")));
+    }
+
+    @Test
+    public void malformedJson() {
+        mockWebServerRule.server.enqueue(new MockResponse().setBody("Jason"));
+
+        activityTestRule.launchActivity(null);
+
+        onView(withId(R.id.error_text))
+                .check(matches(withText("MalformedJsonException")));
+    }
+
+
+    private String getData(){
+        return "[\n" +
+                "  {\n" +
+                "    \"id\": 1,\n" +
+                "    \"name\": \"Leanne Graham\",\n" +
+                "    \"username\": \"Bret\",\n" +
+                "    \"email\": \"Sincere@april.biz\",\n" +
+                "    \"address\": {\n" +
+                "      \"street\": \"Kulas Light\",\n" +
+                "      \"suite\": \"Apt. 556\",\n" +
+                "      \"city\": \"Gwenborough\",\n" +
+                "      \"zipcode\": \"92998-3874\",\n" +
+                "      \"geo\": {\n" +
+                "        \"lat\": \"-37.3159\",\n" +
+                "        \"lng\": \"81.1496\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "    \"phone\": \"1-770-736-8031 x56442\",\n" +
+                "    \"website\": \"hildegard.org\",\n" +
+                "    \"company\": {\n" +
+                "      \"name\": \"Romaguera-Crona\",\n" +
+                "      \"catchPhrase\": \"Multi-layered client-server neural-net\",\n" +
+                "      \"bs\": \"harness real-time e-markets\"\n" +
+                "    }\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": 2,\n" +
+                "    \"name\": \"Ervin Howell\",\n" +
+                "    \"username\": \"Antonette\",\n" +
+                "    \"email\": \"Shanna@melissa.tv\",\n" +
+                "    \"address\": {\n" +
+                "      \"street\": \"Victor Plains\",\n" +
+                "      \"suite\": \"Suite 879\",\n" +
+                "      \"city\": \"Wisokyburgh\",\n" +
+                "      \"zipcode\": \"90566-7771\",\n" +
+                "      \"geo\": {\n" +
+                "        \"lat\": \"-43.9509\",\n" +
+                "        \"lng\": \"-34.4618\"\n" +
+                "      }\n" +
+                "    },\n" +
+                "    \"phone\": \"010-692-6593 x09125\",\n" +
+                "    \"website\": \"anastasia.net\",\n" +
+                "    \"company\": {\n" +
+                "      \"name\": \"Deckow-Crist\",\n" +
+                "      \"catchPhrase\": \"Proactive didactic contingency\",\n" +
+                "      \"bs\": \"synergize scalable supply-chains\"\n" +
+                "    }\n" +
+                "  }\n" +
+                "]";
     }
 }
