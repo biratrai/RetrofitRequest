@@ -1,18 +1,16 @@
 package com.gooner10.retrofitsample.user;
 
 import com.gooner10.retrofitsample.MockWebServerRule;
-import com.gooner10.retrofitsample.OkHttpIdlingResourceRule;
 import com.gooner10.retrofitsample.R;
+import com.gooner10.retrofitsample.URL;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
 
-import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 import okhttp3.mockwebserver.MockResponse;
 
 import static androidx.test.espresso.Espresso.onData;
@@ -22,8 +20,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
-@RunWith(AndroidJUnit4.class)
-@LargeTest
 public class UserActivityTest {
 
     @Rule
@@ -33,9 +29,10 @@ public class UserActivityTest {
     @Rule
     public MockWebServerRule mockWebServerRule = new MockWebServerRule();
 
-    @Rule
-    public OkHttpIdlingResourceRule okHttpIdlingResourceRule = new OkHttpIdlingResourceRule();
-
+    @Before
+    public void setUp() {
+        URL.API_BASE_URL = mockWebServerRule.server.url("/").toString();
+    }
 
     @Test
     public void showsText() {
@@ -54,7 +51,7 @@ public class UserActivityTest {
         activityTestRule.launchActivity(null);
 
         onView(withId(R.id.error_text))
-                .check(matches(withText("No Data available.")));
+                .check(matches(withText("Timeout Exception")));
     }
 
     @Test
@@ -64,6 +61,6 @@ public class UserActivityTest {
         activityTestRule.launchActivity(null);
 
         onView(withId(R.id.error_text))
-                .check(matches(withText("No Data available.")));
+                .check(matches(withText("404")));
     }
 }
