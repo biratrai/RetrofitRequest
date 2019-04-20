@@ -2,8 +2,6 @@ package com.gooner10.retrofitsample.user;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +12,16 @@ import com.gooner10.retrofitsample.detailpost.DetailActivity;
 import com.gooner10.retrofitsample.model.Users;
 import com.gooner10.retrofitsample.util.Util;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * RecyclerView Adapter for the UserActivity RecyclerView
  */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
-    private List<Users> usersList = new ArrayList<>();
+    private List<Users> usersList;
     private final Context context;
 
     public UserAdapter(List<Users> usersList, Context mainActivity) {
